@@ -4,42 +4,44 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DuplicateKeyException;
+
 import com.losdevdepaco.p7project.model.Usuario;
 
 public class UsuarioDAO implements DAO<Usuario>{
 
 	
-	// public List<Usuario> usuario; 
+	public List<Usuario> usuario;
+
+	@Override
+	public int add(Usuario t) throws DuplicateKeyException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void saveAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Usuario get(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Usuario> list() {
+		// TODO Auto-generated method stub
+		return this.usuario;
+	}
+
+	@Override
+	public boolean loadData() {
+		// TODO Auto-generated method stub
+		return false;
+	} 
 	
-	@Override
-	public void create(Usuario t) throws DaoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Optional<Usuario> findById(int id) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateFieldById(int field, String value, int idArchivo) throws DaoException, NoSuchMethodException,
-			InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteById(int id) throws DaoException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Usuario> listAll() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

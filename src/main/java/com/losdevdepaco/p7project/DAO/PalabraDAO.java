@@ -4,42 +4,43 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DuplicateKeyException;
+
 import com.losdevdepaco.p7project.model.Palabra;
 
 public class PalabraDAO implements DAO<Palabra>{
 
-	// public List<Palabra> palabra; 
-	
-	
+	public List<Palabra> palabra;
+
 	@Override
-	public void create(Palabra t) throws DaoException {
+	public int add(Palabra t) throws DuplicateKeyException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void saveAll() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Optional<Palabra> findById(int id) throws DaoException {
+	public Palabra get(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updateFieldById(int field, String value, int idArchivo) throws DaoException, NoSuchMethodException,
-			InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
+	public List<Palabra> list() {
 		// TODO Auto-generated method stub
-		
+		return this.palabra;
 	}
 
 	@Override
-	public void deleteById(int id) throws DaoException {
+	public boolean loadData() {
 		// TODO Auto-generated method stub
-		
+		return false;
+	
 	}
-
-	@Override
-	public List<Palabra> listAll() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
