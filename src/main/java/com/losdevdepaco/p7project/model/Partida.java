@@ -16,6 +16,10 @@ public class Partida {
 		this.tiempo = tiempo;
 	}
 
+	public Partida() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

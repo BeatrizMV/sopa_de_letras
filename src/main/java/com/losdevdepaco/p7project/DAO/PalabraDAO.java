@@ -14,31 +14,26 @@ public class PalabraDAO implements DAO<Palabra>{
 
 	@Override
 	public int add(Palabra t) throws DuplicateKeyException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void saveAll() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Palabra get(String id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Palabra> list() {
-		// TODO Auto-generated method stub
 		return this.palabra;
 	}
 
 	@Override
 	public boolean loadData() {
-		// TODO Auto-generated method stub
 		return false;
 	
 	}

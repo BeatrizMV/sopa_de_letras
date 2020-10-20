@@ -16,6 +16,10 @@ public class Usuario {
 		this.partidas = partidas;
 	}
 
+	public Usuario() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}
