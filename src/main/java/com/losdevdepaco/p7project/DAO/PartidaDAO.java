@@ -1,4 +1,4 @@
-package com.losdevdepaco.p7project.DAO;
+package com.losdevdepaco.p7project.dao;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.time.LocalDate;
-
 import com.losdevdepaco.p7project.model.Partida;
-
-import db.DBconnection;
+import com.losdevdepaco.p7project.db.DBconnection;
 
 public class PartidaDAO implements DAO<Partida>{
 
-	public List<Partida> partida;
-
+	//public List<Partida> partida;
+	
+	//Para insertar una partida
 	@Override
 	public int add(Partida t) throws DuplicateEntityException {
 		DBconnection dbc = new DBconnection();
@@ -27,10 +26,10 @@ public class PartidaDAO implements DAO<Partida>{
 		int newId = -1;
 		try {
 			PreparedStatement st = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			st.setInt(1, partida.getId());  //?
-			st.setDate(2, partida. //LocalDate ???
-			st.setInt(3, partida.getPuntuacion()); //?
-			st.setInt(4, partida.getTiempo()); //? 
+			st.setInt(1, t.getId());
+			st.setObject(2, t.getFecha());
+			st.setInt(3, t.getPuntuacion());
+			st.setInt(4, t.getTiempo());
 			
 			st.executeQuery();
 			Statement st1 = cn.createStatement();
@@ -44,8 +43,8 @@ public class PartidaDAO implements DAO<Partida>{
 		}
 		catch(SQLException e) {
 			System.out.print("Error al insertar los datos de la partida: " + e.getMessage());
-			return newId;
-		}		return 0;
+			return 0;
+		}		
 	}
 
 	@Override
@@ -54,20 +53,24 @@ public class PartidaDAO implements DAO<Partida>{
 		
 	}
 
+	
 	@Override
 	public Partida get(String id) {
-		int partidaId = Integer.parseInt(id);
-		return partida.stream().filter(partida -> partida.getId() == partidaId).findFirst().orElse(null);
+		return null;
+		//int partidaId = Integer.parseInt(id);
+		//return partida.stream().filter(partida -> partida.getId() == partidaId).findFirst().orElse(null);
 	}
 
 	@Override
 	public List<Partida> list() {
-		return this.partida;
+		return null;
+		//return this.partida;
 	}
 
+	//Nos devuelve todas las partidas
 	@Override
 	public boolean loadData() {
-		partida = new ArrayList<Partida>();
+		List <Partida> partidas = new ArrayList<Partida>();
 		DBconnection dbc = new DBconnection();
 		Connection cn = dbc.connect();
 		try {
@@ -76,11 +79,11 @@ public class PartidaDAO implements DAO<Partida>{
 			while (rs.next()) {
 				Partida partida = new Partida();
 				partida.setId(rs.getInt("id"));  
-				partida.//LocalDate ???
+				partida.setFecha ((LocalDate) rs.getObject("fecha"));
 				partida.setPuntuacion(rs.getInt("puntuacion"));
 				partida.setTiempo(rs.getInt("tiempo"));
 
-				partida.add(partida);
+				partidas.add(partida);
 			}
 			cn.close();
 			return true;
@@ -88,7 +91,8 @@ public class PartidaDAO implements DAO<Partida>{
 		catch(SQLException e) {
 			System.out.print("Error al obtener los datos de partidas: " + e.getMessage());
 			return false;
+		}
 	} 
 	
-	
+		
 }

@@ -1,4 +1,4 @@
-package com.losdevdepaco.p7project.DAO;
+package com.losdevdepaco.p7project.dao;
 
 public class DuplicateEntityException extends Exception{
 	

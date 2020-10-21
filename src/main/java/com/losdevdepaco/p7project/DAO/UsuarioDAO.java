@@ -1,4 +1,4 @@
-package com.losdevdepaco.p7project.DAO;
+package com.losdevdepaco.p7project.dao;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -12,15 +12,13 @@ import java.util.Optional;
 
 import org.springframework.dao.DuplicateKeyException;
 
+import com.losdevdepaco.p7project.db.DBconnection;
 import com.losdevdepaco.p7project.model.Partida;
 import com.losdevdepaco.p7project.model.Usuario;
 
-import db.DBconnection;
-
 public class UsuarioDAO implements DAO<Usuario>{
-
 	
-	public List<Usuario> usuario;
+	//public List<Usuario> usuario;
 
 	@Override
 	public int add(Usuario t) throws DuplicateEntityException {
@@ -30,9 +28,9 @@ public class UsuarioDAO implements DAO<Usuario>{
 				int newId = -1;
 				try {
 					PreparedStatement st = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-					st.setInt(1, usuario.getId());  //?
-					st.setString(2, usuario.getNombre());    //?
-					st.setString(3, usuario.getCorreo());  //?
+					st.setInt(1, t.getId());  //?
+					st.setString(2, t.getNombre());    //?
+					st.setString(3, t.getCorreo());  //?
 					
 					st.executeQuery();
 					Statement st1 = cn.createStatement();
@@ -46,8 +44,8 @@ public class UsuarioDAO implements DAO<Usuario>{
 				}
 				catch(SQLException e) {
 					System.out.print("Error al insertar los datos del usuario: " + e.getMessage());
-					return newId;
-				}		return 0;
+					return 0;
+				}		
 	}
 
 	@Override
@@ -58,18 +56,20 @@ public class UsuarioDAO implements DAO<Usuario>{
 
 	@Override
 	public Usuario get(String id) {
-		int usuarioId = Integer.parseInt(id);
-		return usuario.stream().filter(usuario -> usuario.getId() == usuarioId).findFirst().orElse(null);
+		return null;
+		//int usuarioId = Integer.parseInt(id);
+		//return usuario.stream().filter(usuario -> usuario.getId() == usuarioId).findFirst().orElse(null);
 	}
 
 	@Override
 	public List<Usuario> list() {
-		return this.usuario;
+		//return this.usuario;
+		return null;
 	}
 
 	@Override
 	public boolean loadData() {
-		usuario = new ArrayList<Usuario>();
+		List <Usuario> usuarios = new ArrayList<Usuario>();
 		DBconnection dbc = new DBconnection();
 		Connection cn = dbc.connect();
 		try {
@@ -78,11 +78,10 @@ public class UsuarioDAO implements DAO<Usuario>{
 			while (rs.next()) {
 				Usuario usuario = new Usuario();
 				usuario.setId(rs.getInt("id"));  
-				usuario.setNombre(rs.getString("nombre");
+				usuario.setNombre(rs.getString("nombre"));
 				usuario.setCorreo(rs.getString("correo"));
-				usuario.setPartidas(rs.getArray("partidas")); //? get arraylist
-
-				usuario.add(usuario);
+				//usuario.setPartidas(rs.get("partidas")); //Aqui hay que hacer otra query para que nos coja todas las partidas
+				usuarios.add(usuario);
 			}
 			cn.close();
 			return true;
