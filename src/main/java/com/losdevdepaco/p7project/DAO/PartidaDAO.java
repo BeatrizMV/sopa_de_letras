@@ -1,6 +1,7 @@
 package com.losdevdepaco.p7project.DAO;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,25 +9,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.dao.DuplicateKeyException;
+import java.time.LocalDate;
 
 import com.losdevdepaco.p7project.model.Partida;
+
+import db.DBconnection;
 
 public class PartidaDAO implements DAO<Partida>{
 
 	public List<Partida> partida;
 
 	@Override
-	public int add(Partida t) throws DuplicateKeyException {
-		//DBhelpers dbh = new DBhelpers();
-		//Connection cn = dbh.connect();
+	public int add(Partida t) throws DuplicateEntityException {
+		DBconnection dbc = new DBconnection();
+		Connection cn = dbc.connect();
 		String query = "call insertPartida(?, ?, ?, ?, @id)";
 		int newId = -1;
 		try {
 			PreparedStatement st = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			st.setInt(1, partida.getId());  //?
-			//st. Localdate //????
+			st.setDate(2, partida. //LocalDate ???
 			st.setInt(3, partida.getPuntuacion()); //?
 			st.setInt(4, partida.getTiempo()); //? 
 			
@@ -66,15 +68,15 @@ public class PartidaDAO implements DAO<Partida>{
 	@Override
 	public boolean loadData() {
 		partida = new ArrayList<Partida>();
-		//DBhelpers dbh = new DBhelpers();
-		//Connection cn = dbh.connect();
+		DBconnection dbc = new DBconnection();
+		Connection cn = dbc.connect();
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM Partida");
 			while (rs.next()) {
 				Partida partida = new Partida();
 				partida.setId(rs.getInt("id"));  
-				partida.setFecha(rs.LocaleDate("date"));  ///??
+				partida.//LocalDate ???
 				partida.setPuntuacion(rs.getInt("puntuacion"));
 				partida.setTiempo(rs.getInt("tiempo"));
 

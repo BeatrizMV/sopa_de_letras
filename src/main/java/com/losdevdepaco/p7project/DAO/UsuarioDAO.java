@@ -1,6 +1,7 @@
 package com.losdevdepaco.p7project.DAO;
 
 import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,15 +15,17 @@ import org.springframework.dao.DuplicateKeyException;
 import com.losdevdepaco.p7project.model.Partida;
 import com.losdevdepaco.p7project.model.Usuario;
 
+import db.DBconnection;
+
 public class UsuarioDAO implements DAO<Usuario>{
 
 	
 	public List<Usuario> usuario;
 
 	@Override
-	public int add(Usuario t) throws DuplicateKeyException {
-		//DBhelpers dbh = new DBhelpers();
-		//Connection cn = dbh.connect();
+	public int add(Usuario t) throws DuplicateEntityException {
+		DBconnection dbc = new DBconnection();
+		Connection cn = dbc.connect();
 				String query = "call insertUsuario(?, ?, ?, ?, @id)";
 				int newId = -1;
 				try {
@@ -67,8 +70,8 @@ public class UsuarioDAO implements DAO<Usuario>{
 	@Override
 	public boolean loadData() {
 		usuario = new ArrayList<Usuario>();
-		//DBhelpers dbh = new DBhelpers();
-		//Connection cn = dbh.connect();
+		DBconnection dbc = new DBconnection();
+		Connection cn = dbc.connect();
 		try {
 			Statement st = cn.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM Usuario");

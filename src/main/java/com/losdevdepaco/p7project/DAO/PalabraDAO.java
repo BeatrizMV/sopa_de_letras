@@ -1,10 +1,6 @@
 package com.losdevdepaco.p7project.DAO;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.dao.DuplicateKeyException;
 
 import com.losdevdepaco.p7project.model.Palabra;
 
@@ -13,7 +9,7 @@ public class PalabraDAO implements DAO<Palabra>{
 	public List<Palabra> palabra;
 
 	@Override
-	public int add(Palabra t) throws DuplicateKeyException {
+	public int add(Palabra t) throws DuplicateEntityException {
 		return 0;
 	}
 
