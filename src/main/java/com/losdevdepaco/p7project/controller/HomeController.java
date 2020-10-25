@@ -25,7 +25,7 @@ public class HomeController {
 	public String login(Model model) {
 		PalabraDAO p = new PalabraDAO();
 		Palabra pb = new Palabra("palabros");
-		p.insert(pb);
+		p.delete(pb);
 		return "hola";
 		
 		//model.addAttribute("loginData", new LoginData());

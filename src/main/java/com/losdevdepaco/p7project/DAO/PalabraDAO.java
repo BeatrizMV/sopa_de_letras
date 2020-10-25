@@ -11,13 +11,6 @@ import com.losdevdepaco.p7project.model.Palabra;
 public class PalabraDAO implements DAO<Palabra>{
 	
 	private DBconnection conexion = new DBconnection();
-	
-	
-	/*INSERT INTO `sopaletras`.`palabra`
-(`palabra`)
-VALUES
-("Otorrinolaringolog");
-*/
 
 	//insertar una palabra
 	@Override
@@ -38,11 +31,22 @@ VALUES
 	            conexion.disconnect();
 	        }
 	    }
-
+	
+	//Borrar palabra
 	@Override
 	public void delete(Palabra t) {
-		
-	}
+		 Connection connection = null;
+	        try {
+	            connection = conexion.connect();
+	            PreparedStatement stmt = connection.prepareStatement("delete from " + "palabra" + " where " + "palabra" + "= ?");
+	            stmt.setString(1, t.getPalabra());
+	            int updated = stmt.executeUpdate();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            conexion.disconnect();
+	        }
+	    }      
 
 	@Override
 	public List<Palabra> getall() {
