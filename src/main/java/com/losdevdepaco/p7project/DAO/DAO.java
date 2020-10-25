@@ -1,19 +1,20 @@
-package com.losdevdepaco.p7project.DAO;
+package com.losdevdepaco.p7project.dao;
 
-	import java.lang.reflect.InvocationTargetException;
-	import java.util.List;
-	import java.util.Optional;
+import java.util.List;
 
-	public interface DAO<T> {
-	    public void create(T t) throws DaoException;
+public interface DAO<T> {
+	// Insertar
+	public void insert(T t);
 
-	    public Optional<T> findById(int id) throws DaoException;
+	// Borrar
+	public void delete(T t);
 
-	    public void updateFieldById(int field, String value, int idArchivo) throws DaoException,
-	            NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException;
+	// Listar
+	public List<T> getall();
 
-	    public void deleteById(int id) throws DaoException;
+	// Listar por id
+	public T get(String id);
 
-	    public List<T> listAll() throws DaoException;
-	
+	// Modificar
+	public void update(T t);
 }
