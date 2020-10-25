@@ -17,13 +17,28 @@ import com.losdevdepaco.p7project.model.Partida;
 import com.losdevdepaco.p7project.model.Usuario;
 
 public class UsuarioDAO implements DAO<Usuario>{
+	
+	private DBconnection conexion = new DBconnection();
 
 	@Override
 	public void insert(Usuario t) {
-		// TODO Auto-generated method stub
-		
+		Connection connection = null;
+		try {
+			connection = conexion.connect();
+			PreparedStatement stmt = connection.prepareStatement("insert into " + "usuario" + " (" +
+			// campos, respetar el orden
+					"nombre"+", "+"email"+")" + " values (?,?) ");
+			// datos, respetar el orden
+			stmt.setObject(1, t.getNombre());
+			stmt.setString(2, t.getCorreo());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			conexion.disconnect();
+		}
 	}
-
+	
 	@Override
 	public void delete(Usuario t) {
 		// TODO Auto-generated method stub

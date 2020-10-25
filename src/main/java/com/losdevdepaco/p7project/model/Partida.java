@@ -8,16 +8,33 @@ public class Partida {
 	private LocalDate fecha;
 	private int puntuacion;
 	private int tiempo;
+	private Usuario user;
 	
-	public Partida(int id, LocalDate fecha, int puntuacion, int tiempo) {
+	public Partida(int id, LocalDate fecha, int puntuacion, int tiempo, Usuario user) {
 		this.id = id;
 		this.fecha = fecha;
 		this.puntuacion = puntuacion;
 		this.tiempo = tiempo;
+		this.user = user;
+	}
+	
+	public Partida(LocalDate fecha, int puntuacion, int tiempo, Usuario user) {
+		this.fecha = fecha;
+		this.puntuacion = puntuacion;
+		this.tiempo = tiempo;
+		this.user = user;
 	}
 
 	public Partida() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Usuario getUser() {
+		return user;
+	}
+
+	public void setUser(Usuario user) {
+		this.user = user;
 	}
 
 	public int getId() {

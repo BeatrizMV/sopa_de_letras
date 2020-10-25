@@ -14,13 +14,30 @@ import com.losdevdepaco.p7project.model.Partida;
 import com.losdevdepaco.p7project.db.DBconnection;
 
 public class PartidaDAO implements DAO<Partida>{
+	
+	private DBconnection conexion = new DBconnection();
 
 	@Override
 	public void insert(Partida t) {
-		// TODO Auto-generated method stub
-		
+		Connection connection = null;
+		try {
+			connection = conexion.connect();
+			PreparedStatement stmt = connection.prepareStatement("insert into " + "partida" + " (" +
+			// campos, respetar el orden
+					"fecha"+", "+"puntuacion"+", "+"tiempo" + ", " + "idUsuario" + ")" + " values (?,?,?,?) ");
+			// datos, respetar el orden
+			stmt.setObject(1, t.getFecha());
+			stmt.setInt(2, t.getPuntuacion());
+			stmt.setInt(3, t.getTiempo());
+			stmt.setInt(4, t.getUser().getId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			conexion.disconnect();
+		}
 	}
-
+	
 	@Override
 	public void delete(Partida t) {
 		// TODO Auto-generated method stub
