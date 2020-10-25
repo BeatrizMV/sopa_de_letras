@@ -1,21 +1,52 @@
 package com.losdevdepaco.p7project.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
+import com.losdevdepaco.p7project.db.DBconnection;
 import com.losdevdepaco.p7project.model.Palabra;
 
 public class PalabraDAO implements DAO<Palabra>{
+	
+	private DBconnection conexion = new DBconnection();
+	
+	
+	/*INSERT INTO `sopaletras`.`palabra`
+(`palabra`)
+VALUES
+("Otorrinolaringolog");
+*/
 
-	public List<Palabra> palabra;
+	//insertar una palabra
+	@Override
+	public void insert(Palabra t) {
+		 Connection connection = null;
+	        try {
+	            connection = conexion.connect();
+	            PreparedStatement stmt = connection.prepareStatement("insert into "+"palabra"+" ("+
+	                    // campos, respetar el orden
+	                    "palabra"+")"+
+	                    " values (?) ");
+	            // datos, respetar el orden
+	            stmt.setString(1, t.getPalabra());
+	            stmt.executeUpdate();
+	        } catch (SQLException e) {
+	           e.printStackTrace();
+	        } finally {
+	            conexion.disconnect();
+	        }
+	    }
 
 	@Override
-	public int add(Palabra t) throws DuplicateEntityException {
-		return 0;
+	public void delete(Palabra t) {
+		
 	}
 
 	@Override
-	public void saveAll() {
-		
+	public List<Palabra> getall() {
+		return null;
 	}
 
 	@Override
@@ -24,14 +55,10 @@ public class PalabraDAO implements DAO<Palabra>{
 	}
 
 	@Override
-	public List<Palabra> list() {
-		return this.palabra;
+	public void update(Palabra t) {
+		
 	}
 
-	@Override
-	public boolean loadData() {
-		return false;
-	
-	}
+
 	
 }

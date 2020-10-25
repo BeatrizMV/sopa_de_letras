@@ -15,11 +15,41 @@ import com.losdevdepaco.p7project.db.DBconnection;
 
 public class PartidaDAO implements DAO<Partida>{
 
-	//public List<Partida> partida;
+	@Override
+	public void insert(Partida t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Partida t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Partida> getall() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Partida get(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Partida t) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	//Para insertar una partida
+	/*
 	@Override
-	public int add(Partida t) throws DuplicateEntityException {
+	public int insert(Partida t) throws DuplicateEntityException {
 		DBconnection dbc = new DBconnection();
 		Connection cn = dbc.connect();
 		String query = "call insertPartida(?, ?, ?, ?, @id)";
@@ -47,25 +77,7 @@ public class PartidaDAO implements DAO<Partida>{
 		}		
 	}
 
-	@Override
-	public void saveAll() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	
-	@Override
-	public Partida get(String id) {
-		return null;
-		//int partidaId = Integer.parseInt(id);
-		//return partida.stream().filter(partida -> partida.getId() == partidaId).findFirst().orElse(null);
-	}
-
-	@Override
-	public List<Partida> list() {
-		return null;
-		//return this.partida;
-	}
 
 	//Nos devuelve todas las partidas
 	@Override
@@ -93,6 +105,6 @@ public class PartidaDAO implements DAO<Partida>{
 			return false;
 		}
 	} 
-	
+	*/
 		
 }

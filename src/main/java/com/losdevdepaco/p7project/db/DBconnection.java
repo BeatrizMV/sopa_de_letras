@@ -6,15 +6,18 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBconnection {
+	
+	//   C:\Users\User\javaEEWorkSpace\p7project
 
-	private static final String DB_DRIVER = "";
-    private static final String DB_URL = "";
+	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/sopaletras";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "root";
     private static final String MAX_POOL = "250";
 
     private Connection connection;
     private Properties properties;
+    
 
     // Creación de propiedades
     private Properties getProperties() {

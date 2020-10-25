@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.losdevdepaco.p7project.controller.ldap.LdapManager;
+import com.losdevdepaco.p7project.dao.PalabraDAO;
 import com.losdevdepaco.p7project.model.LoginData;
+import com.losdevdepaco.p7project.model.Palabra;
 
 @Controller
 public class HomeController {
@@ -21,10 +23,13 @@ public class HomeController {
 	//mostrar login.jsp
 	@RequestMapping(value="/login")
 	public String login(Model model) {
-		model.addAttribute("loginData", new LoginData());
-//		ModelAndView ret = new ModelAndView("login");
-//		return ret;
-		return "login";
+		PalabraDAO p = new PalabraDAO();
+		Palabra pb = new Palabra("palabros");
+		p.insert(pb);
+		return "hola";
+		
+		//model.addAttribute("loginData", new LoginData());
+		//return "login";
 	}
 	
 	//los datos llegan aqui con el submit del formulario del login.jsp

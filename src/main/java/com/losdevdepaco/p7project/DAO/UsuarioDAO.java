@@ -17,11 +17,41 @@ import com.losdevdepaco.p7project.model.Partida;
 import com.losdevdepaco.p7project.model.Usuario;
 
 public class UsuarioDAO implements DAO<Usuario>{
-	
-	//public List<Usuario> usuario;
 
 	@Override
-	public int add(Usuario t) throws DuplicateEntityException {
+	public void insert(Usuario t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Usuario t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Usuario> getall() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Usuario get(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Usuario t) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//public List<Usuario> usuario;
+/*
+	@Override
+	public int insert(Usuario t) throws DuplicateEntityException {
 		DBconnection dbc = new DBconnection();
 		Connection cn = dbc.connect();
 				String query = "call insertUsuario(?, ?, ?, ?, @id)";
@@ -48,24 +78,6 @@ public class UsuarioDAO implements DAO<Usuario>{
 				}		
 	}
 
-	@Override
-	public void saveAll() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Usuario get(String id) {
-		return null;
-		//int usuarioId = Integer.parseInt(id);
-		//return usuario.stream().filter(usuario -> usuario.getId() == usuarioId).findFirst().orElse(null);
-	}
-
-	@Override
-	public List<Usuario> list() {
-		//return this.usuario;
-		return null;
-	}
 
 	@Override
 	public boolean loadData() {
@@ -92,6 +104,6 @@ public class UsuarioDAO implements DAO<Usuario>{
 	} 
 	
 	} 
-	
+	*/
 
 }
