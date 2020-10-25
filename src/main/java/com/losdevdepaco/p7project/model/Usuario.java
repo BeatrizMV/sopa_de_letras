@@ -20,6 +20,12 @@ public class Usuario {
 		this.nombre = nombre;
 		this.correo = correo;
 	}
+	
+	public Usuario(int id, String nombre, String correo) {
+		this.id = id;
+		this.nombre = nombre;
+		this.correo = correo;
+	}
 
 	public Usuario() {
 		// TODO Auto-generated constructor stub

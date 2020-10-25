@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.losdevdepaco.p7project.db.DBconnection;
 import com.losdevdepaco.p7project.model.Palabra;
 
@@ -42,7 +43,7 @@ public class PalabraDAO implements DAO<Palabra> {
 			PreparedStatement stmt = connection
 					.prepareStatement("delete from " + "palabra" + " where " + "palabra" + "= ?");
 			stmt.setString(1, t.getPalabra());
-			int updated = stmt.executeUpdate();
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -50,6 +51,7 @@ public class PalabraDAO implements DAO<Palabra> {
 		}
 	}
 
+	//listar todas las palabras
 	@Override
 	public List<Palabra> getall() {
 		Connection connection = null;
@@ -74,6 +76,7 @@ public class PalabraDAO implements DAO<Palabra> {
 		return retList;
 	}
 
+	//listar por id la palabra
 	@Override
 	public Palabra get(String id) {
 		Connection connection = null;
@@ -96,6 +99,7 @@ public class PalabraDAO implements DAO<Palabra> {
         return retPalabra;
 	}
 
+	//modificar palabra
 	@Override
 	public void update(Palabra t) {
 		Connection connection = null;
