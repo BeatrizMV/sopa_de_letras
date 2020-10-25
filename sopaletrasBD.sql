@@ -1,6 +1,6 @@
 USE sopaletras;
 CREATE TABLE Usuario (
-idUsuario varchar(50) PRIMARY KEY,
+idUsuario int AUTO_INCREMENT PRIMARY KEY,
 nombre varchar(50) NOT NULL,
 email varchar(100) NOT NULL
 );
@@ -10,7 +10,7 @@ idPartida int AUTO_INCREMENT PRIMARY KEY,
 fecha date NOT NULL,
 puntuacion int NOT NULL,
 tiempo int NOT NULL,
-idUsuario varchar(50) NOT NULL,
+idUsuario int NOT NULL,
 FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
 
