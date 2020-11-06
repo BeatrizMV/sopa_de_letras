@@ -7,8 +7,6 @@ import java.util.Properties;
 
 public class DBconnection {
 	
-	//   C:\Users\User\javaEEWorkSpace\p7project
-
 	private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://localhost:3306/sopaletras";
     private static final String USER = "root";

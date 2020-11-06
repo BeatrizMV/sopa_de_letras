@@ -9,7 +9,35 @@
 			// inline JavaScript here 
 		</script>
   	</jsp:attribute>  
+  	
+  	
 	<jsp:body>
-		<h1>Bienvenido a la aplicación, <c:out value="${ userName }" /></h1>
+	
+		<div>
+			<c:out value="${ tabla }" />
+		</div> 
+		
+		<div>
+			<c:out value="${ palabras }" />
+		</div> 
+	
+
+	
+		<h1>Bienvenido a Sopa de letras, <c:out value="${ userName }" /></h1>
+		
+		<c:out value="${ htmlTabla }"  escapeXml="false" />
+		
+		<h3>Puntos</h3>
+		<h3>Tiempo</h3>
+		<div>
+		
+		</div>
+		
+		<form action="/p7project/new-game" method="post"> 
+  			<input type="submit" value="Nueva partida">
+		</form>
+		
+		
+		
 	</jsp:body>
 </tags:template>
