@@ -15,6 +15,7 @@
     	<link rel="stylesheet" type="text/css" media="all" href="${baseUrl}/resources/bootstrap/css/bootstrap.css"/>
     	<link rel="stylesheet" type="text/css" media="all" href="${baseUrl}/resources/bootstrap/css/bootstrap-responsive.css"/>
 		<link rel="stylesheet" type="text/css" media="all" href="${baseUrl}/resources/style.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" src="${baseUrl}/resources/project.js" ></script>
 		<jsp:invoke fragment="head"/>
 	</head>

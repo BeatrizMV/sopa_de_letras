@@ -87,7 +87,7 @@ public class HomeController {
 		for (int i = 0; i < 15; i++) {
 			htmlTabla+="<tr>";
 			for (int j = 0; j < 20; j++) {
-				htmlTabla+="<td style='text-align:center' id="+(i+1)+"_"+(j+1)+">"+tabla[i][j]+"</td>";
+				htmlTabla+="<td style='text-align:center' class='celda' id="+(i)+"_"+(j)+">"+tabla[i][j]+"</td>";
 			}
 			htmlTabla+="</tr>";
 		}

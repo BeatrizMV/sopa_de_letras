@@ -5,39 +5,191 @@
 
 <tags:template>
 	<jsp:attribute name="head">  
-		<script type="text/javascript">
-			// inline JavaScript here 
-		</script>
+
   	</jsp:attribute>  
   	
   	
 	<jsp:body>
 	
-		<div>
-			<c:out value="${ tabla }" />
-		</div> 
-		
-		<div>
-			<c:out value="${ palabras }" />
-		</div> 
-	
+		<c:choose>
+	    	<c:when test="${empty userName}">
+	        	<h1>Sopa de letras</h1>
+	        	<c:out value="${ htmlTabla }"  escapeXml="false" />
+				<h3>Puntos</h3>
+				<h3>Tiempo</h3>
+	    	</c:when>
+	    	<c:otherwise>
+	        	<h1>Bienvenido a Sopa de letras, <c:out value="${ userName }" /></h1>
+	    	</c:otherwise>
+		</c:choose>
 
-	
-		<h1>Bienvenido a Sopa de letras, <c:out value="${ userName }" /></h1>
 		
-		<c:out value="${ htmlTabla }"  escapeXml="false" />
 		
-		<h3>Puntos</h3>
-		<h3>Tiempo</h3>
-		<div>
-		
-		</div>
 		
 		<form action="/p7project/new-game" method="post"> 
   			<input type="submit" value="Nueva partida">
 		</form>
 		
+		<script type="text/javascript">
+		/*$('#1_1').on('mousedown', function() {
+		    console.log("Pulsado");
+		;}).on('mouseup', function() {
+		;    console.log("Soltado");
+		;}); 
 		
+		;$('#1_1').on('click', function() {
+		;    console.log("Click");
+		;}) */
+		
+		function getCurrentChar(h, v){
+			const id = "" + v + "_" + h;
+			console.log("Getting element with id: ", id);
+			const element = document.getElementById(id);
+			if(element){
+				console.log("Current char is: ", element.textContent);
+				return element.textContent;	
+			} else {
+				console.log("No element with id: ", id);
+				return null;
+			}
+			
+		}
+		
+		function getCharsFromFirstAndLast(fCharV, fCharH, lCharV, lCharH) {
+			console.log("Getting chars for", fCharV, fCharH, lCharV, lCharH);
+			
+			let retArray = [];
+			
+			//detectar direccion
+			//misma horizontal
+			if(fCharV === lCharV){
+				//derecha
+				if(fCharH < lCharH){
+					console.log("Same horizontal, right");
+					for(let i=fCharH; i <= lCharH; i++){
+						const currentChar = getCurrentChar(i, fCharV);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				//izquierda	
+				} else {
+					console.log("Same horizontal, left");
+					for(let i=fCharH; i >= lCharH; i--){
+						const currentChar = getCurrentChar(i, fCharV);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				}
+			//misma vertical
+			} else if(fCharH === lCharH) {
+				//abajo
+				if(fCharV < lCharV){
+					console.log("Same vertical, down");
+					for(let i=fCharV; i <= lCharV; i++){
+						const currentChar = getCurrentChar(fCharH, i);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				//arriba	
+				} else {
+					console.log("Same vertical, up");
+					for(let i=fCharV; i >= lCharV; i--){
+						const currentChar = getCurrentChar(fCharH, i);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}	
+				}
+			//diagonal abajo derecha y arriba izquierda
+			} else if((fCharH - fCharV) === (lCharH - lCharV)){
+				//abajo derecha
+				if(lCharV > fCharV){
+					console.log("Same diagonal, down right");
+					for(let i=fCharH, j=fCharV; i <= lCharH && j <= lCharV; i++, j++){
+						const currentChar = getCurrentChar(i, j);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				//arriba izquierda
+				} else {
+					console.log("Same diagonal, up left");
+					for(let i=fCharH, j=fCharV; i >= lCharH && j >= lCharV; i--, j--){
+						const currentChar = getCurrentChar(i, j);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				}
+			//diagonal arriba derecha y abajo izquierda	
+			} else if((fCharH + fCharV) === (lCharH + lCharV)){
+				//abajo izquierda
+				if(lCharV > fCharV){
+					console.log("Same diagonal, down left");
+					for(let i=fCharH, j=fCharV; i >= lCharH && j <= lCharV; i--, j++){
+						const currentChar = getCurrentChar(i, j);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				//arriba derecha
+				} else {
+					console.log("Same diagonal, up right");
+					for(let i=fCharH, j=fCharV; i <= lCharH && j >= lCharV; i++, j--){
+						const currentChar = getCurrentChar(i, j);
+						if(currentChar){
+							retArray.push(currentChar);
+						}
+					}
+				}
+			//valores que no conectan
+			} else {
+				console.log("The coordinates can't be connected:", fCharV, fCharH, lCharV, lCharH);
+			}
+			
+			console.log("Returning array:", retArray);
+			
+			return retArray;
+		}
+		
+		let firstCharV= null; 
+		let firstCharH= null; 
+		let lastCharV= null; 
+		let lastCharH = null;
+		
+		document.querySelectorAll(".celda").forEach(function(item){
+		    item.addEventListener("click", function(event){
+		    	const fullId = event.target.id;
+		    	const vertical = event.target.id.split("_")[0];
+		    	const horizontal = event.target.id.split("_")[1];
+		    	console.log("vertical:" + vertical);
+		    	console.log("horizontal:" + horizontal);
+		    	
+		    	if(!firstCharV){
+		    		firstCharV = vertical;
+		    		firstCharH = horizontal;
+		    	} else {
+		    		lastCharV = vertical;
+		    		lastCharH = horizontal;
+		    		const charsToCheck = getCharsFromFirstAndLast(parseInt(firstCharV), 
+		    				parseInt(firstCharH), 
+		    				parseInt(lastCharV), 
+		    				parseInt(lastCharH));
+		    		firstCharV= null; 
+		    		firstCharH= null; 
+		    		lastCharV= null; 
+		    		lastCharH = null;
+		    		console.log("Sending request for chars: ", charsToCheck);
+		    	}
+		    	
+		    	
+		    });
+		});
+		
+		</script>
 		
 	</jsp:body>
 </tags:template>
