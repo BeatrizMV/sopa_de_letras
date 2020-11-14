@@ -15,8 +15,6 @@
 	    	<c:when test="${empty userName}">
 	        	<h1>Sopa de letras</h1>
 	        	<c:out value="${ htmlTabla }" escapeXml="false" />
-				<h3>Puntos</h3>
-				<h3>Tiempo</h3>
 	    	</c:when>
 	    	<c:otherwise>
 	        	<h1>Bienvenido a Sopa de letras, <c:out
@@ -63,9 +61,20 @@
 		
 		function paintCurrentChar(h, v, fontColor, backgroundColor){
 			const element = getCurrentCharElement(h, v);
-			const styleStr = "color: " + fontColor + "; background-color: " + backgroundColor +";";
-			console.log("Applying this style to this coordinates:", styleStr, h, v);
-			element.style = styleStr;
+			//Si el elemento ha sido previamente seleccionado y acertado, no cambiar
+			if(element.className.includes("selected-char")){
+				console.log("Letra previamente seleccionada, no se cambia el color");
+			} else {
+				const styleStr = "color: " + fontColor + "; background-color: " + backgroundColor +";";
+				console.log("Applying this style to this coordinates:", styleStr, h, v);
+				element.style = styleStr;
+			}
+		}
+		
+		function setCurrentCharSelected(h, v){
+			const element = getCurrentCharElement(h, v);
+			console.log("Applying the selected style to the cell");
+			element.className += " selected-char";
 		}
 		
 		function traverseSelectedWordAndApply(fCharV, 
@@ -248,14 +257,18 @@
 		    			success: function(resp){
 		    				console.log("Received from server:", resp);
 		    				if(resp && resp.correcto && resp.palabrasRestantes === 0){
-		    					const text = "Juego finalizado!!";
+		    					let text = "Juego finalizado!!";
+		    					text += "\nSegundos en terminar la partida: " + resp.segundosUtilizados;
+		    					text += "\nPuntuación final: " + resp.puntos;
 		    					alert(text);
 		    					traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 
 					    				parseInt(lastCharV), parseInt(lastCharH),
 					    				function(i, j){
 				    						console.log("Painting the cells in green");
 											paintCurrentChar(i, j, "white", "green");
+											setCurrentCharSelected(i, j);
 					    				});
+		    					finalizarPartida();
 		    				} else if(resp && resp.correcto){
 		    					let found = "Palabra encontrada!\nPalabras restantes: " + resp.palabrasRestantes; 
 				    			alert(found);
@@ -264,7 +277,8 @@
 					    				parseInt(lastCharV), parseInt(lastCharH),
 					    				function(i, j){
 				    						console.log("Painting the cells in green");
-											paintCurrentChar(i, j, "white", "green");
+				    						paintCurrentChar(i, j, "white", "green");
+				    						setCurrentCharSelected(i, j);
 					    				});
 		    				} else {
 		    					//No se ha encontrado nada, pintar la casilla de blanco de nuevo
@@ -298,6 +312,10 @@
 		    	
 		    });
 		});
+		
+		function finalizarPartida() {
+			
+		}
 		
 		</script>
 		

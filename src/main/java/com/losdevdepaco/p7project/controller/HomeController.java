@@ -1,5 +1,7 @@
 package com.losdevdepaco.p7project.controller;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,10 @@ import com.losdevdepaco.p7project.controller.SPPalabra;
 @Controller
 public class HomeController {
 
+	private static final int MULTIPLICADOR_PUNTOS = 100; 
+	
 	private static SopaDeLetras spEnUso;
+	private static LocalDateTime inicioPartida;
 
 	@Autowired
 	private LdapManager ldapManager;
@@ -59,6 +64,7 @@ public class HomeController {
 	@RequestMapping(value = "/new-game", method = RequestMethod.POST)
 	public ModelAndView createGame() {
 		System.out.println("New Game Called");
+		inicioPartida = LocalDateTime.now();
 
 		PalabraDAO palabras = new PalabraDAO();
 		List<Palabra> todasPalabras = palabras.getall();
@@ -135,9 +141,20 @@ public class HomeController {
 		PalabraCheckDto dto = new PalabraCheckDto();
 		dto.setCorrecto(acierto);
 		dto.setPalabrasRestantes(restantes);
+		if(restantes == 0) {
+			int segundosUtilizados = calcularSegundosPartida();
+			dto.setSegundosUtilizados(segundosUtilizados);
+			dto.setPuntos(segundosUtilizados * MULTIPLICADOR_PUNTOS);
+		}
 
 		System.out.println("Devolvemos respuesta: " + dto);
 		return dto;
+	}
+	
+	private int calcularSegundosPartida() {
+		LocalDateTime finPartida = LocalDateTime.now();
+		long seconds = ChronoUnit.SECONDS.between(inicioPartida, finPartida);
+		return (int) seconds;
 	}
 
 }

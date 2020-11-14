@@ -6,6 +6,8 @@ public class PalabraCheckDto {
 	private char[] palabraComprobar;
 	private boolean isCorrecto;
 	private int palabrasRestantes = -1;
+	private int puntos = 0;
+	private int segundosUtilizados = 0;
 	
 	public PalabraCheckDto() {
 		
@@ -35,9 +37,27 @@ public class PalabraCheckDto {
 		this.palabrasRestantes = palabrasRestantes;
 	}
 
+	public int getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(int puntos) {
+		this.puntos = puntos;
+	}
+
+	public int getSegundosUtilizados() {
+		return segundosUtilizados;
+	}
+
+	public void setSegundosUtilizados(int segundosUtilizados) {
+		this.segundosUtilizados = segundosUtilizados;
+	}
+
 	@Override
 	public String toString() {
 		return "PalabraCheckDto [palabraComprobar=" + Arrays.toString(palabraComprobar) + ", isCorrecto=" + isCorrecto
-				+ ", palabrasRestantes=" + palabrasRestantes + "]";
+				+ ", palabrasRestantes=" + palabrasRestantes + ", puntos=" + puntos + ", segundosUtilizados="
+				+ segundosUtilizados + "]";
 	}
+
 }
