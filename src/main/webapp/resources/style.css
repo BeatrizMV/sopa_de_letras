@@ -2,3 +2,57 @@
 	color: white;
 	background-color: green;
 }
+
+.app-header {
+	height: 8em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.app-main {
+	display: flex;
+	justify-content: space-around;
+	padding: 0 1em;
+}
+
+.new-game-block {
+	margin-top: 3em;
+	display: flex;
+	justify-content: center;
+}
+
+.sp__table {
+	border: solid 1px black;
+}
+
+.celda {
+	padding: 0.5em;
+	font-size: 1.2em;
+}
+
+.palabras__title {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.palabras__container {
+	border: 1px solid black;
+	padding: 1em;
+	border-radius: 10px;
+}
+
+.a-buscar--palabra {
+	margin-top: 1.5em;
+	font-size: 1.5em;
+	list-style: none;
+}
+
+.encontrado {
+	text-decoration: line-through;
+}
+
+.new-game-button {
+	font-size: 2.5em;
+	padding: 1em;
+}

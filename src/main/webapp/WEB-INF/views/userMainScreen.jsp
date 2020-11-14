@@ -11,10 +11,23 @@
 
 	<jsp:body>
 	
+	
 		<c:choose>
 	    	<c:when test="${empty userName}">
+	    	<header class="app-header">
 	        	<h1>Sopa de letras</h1>
+	        </header>
+	        <main class="app-main">
 	        	<c:out value="${ htmlTabla }" escapeXml="false" />
+	        	<section class="palabras__container">
+	        		<div class="palabras__title">Palabras a buscar</div>
+	        		<ul id="a-buscar" >
+	        			<c:forEach var="item" items="${ palabras }">
+	        				<li class="a-buscar--palabra">${item}</li>
+	        			</c:forEach>
+	        		</ul>
+	        	</section>
+	        </main>
 	    	</c:when>
 	    	<c:otherwise>
 	        	<h1>Bienvenido a Sopa de letras, <c:out
@@ -22,13 +35,14 @@
 				</h1>
 	    	</c:otherwise>
 		</c:choose>
-
+	
 		
+		<div class="new-game-block">
+			<form action="/p7project/new-game" method="post"> 
+  				<input class="new-game-button" type="submit" value="Nueva partida">
+			</form>
+		</div>
 		
-		
-		<form action="/p7project/new-game" method="post"> 
-  			<input type="submit" value="Nueva partida">
-		</form>
 		
 		<script type="text/javascript">
 		/*$('#1_1').on('mousedown', function() {

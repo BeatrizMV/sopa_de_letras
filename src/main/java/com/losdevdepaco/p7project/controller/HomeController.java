@@ -29,7 +29,7 @@ import com.losdevdepaco.p7project.controller.SPPalabra;
 @Controller
 public class HomeController {
 
-	private static final int MULTIPLICADOR_PUNTOS = 100; 
+	private static final int VALOR_BASE = 10000000; 
 	
 	private static SopaDeLetras spEnUso;
 	private static LocalDateTime inicioPartida;
@@ -92,22 +92,22 @@ public class HomeController {
 		SopaDeLetras s = new SopaDeLetras(0, 0, 'a', 0, "", listaPalabras);
 		ret.addObject("tabla", s.getTabla());
 
-		/*
-		 * List<String> listaPalabras = Arrays.asList("aristocracia", "burguesia",
-		 * "clorofila", "comercializacion", "desarrollador", "hambruna");
-		 */
+		
+		 List<String> listaPalabrasStrings = Arrays.asList("aristocracia", "burguesia",
+		 "clorofila", "comercializacion", "desarrollador", "hambruna");
+		
 
 		
 
-		ret.addObject("palabras", listaPalabras);
+		ret.addObject("palabras", listaPalabrasStrings);
 
 		char[][] tabla = s.getTabla();
-		String htmlTabla = "<table style=\"float: left; width: 40%;\" border=\"1\">";
+		String htmlTabla = "<table class=\"sp__table\">";
 
 		for (int i = 0; i < 15; i++) {
 			htmlTabla += "<tr>";
 			for (int j = 0; j < 20; j++) {
-				htmlTabla += "<td style='text-align:center' class='celda' id=" + (i) + "_" + (j) + ">" + tabla[i][j]
+				htmlTabla += "<td class='celda' id=" + (i) + "_" + (j) + ">" + tabla[i][j]
 						+ "</td>";
 			}
 			htmlTabla += "</tr>";
@@ -144,7 +144,7 @@ public class HomeController {
 		if(restantes == 0) {
 			int segundosUtilizados = calcularSegundosPartida();
 			dto.setSegundosUtilizados(segundosUtilizados);
-			dto.setPuntos(segundosUtilizados * MULTIPLICADOR_PUNTOS);
+			dto.setPuntos(calcularPuntuacion(segundosUtilizados));
 		}
 
 		System.out.println("Devolvemos respuesta: " + dto);
@@ -155,6 +155,10 @@ public class HomeController {
 		LocalDateTime finPartida = LocalDateTime.now();
 		long seconds = ChronoUnit.SECONDS.between(inicioPartida, finPartida);
 		return (int) seconds;
+	}
+	
+	private int calcularPuntuacion(int segundos) {
+		return VALOR_BASE / segundos;
 	}
 
 }
