@@ -1,25 +1,27 @@
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <tags:template>
 	<jsp:attribute name="head">  
 
-  	</jsp:attribute>  
-  	
-  	
+  	</jsp:attribute>
+
+
 	<jsp:body>
 	
 		<c:choose>
 	    	<c:when test="${empty userName}">
 	        	<h1>Sopa de letras</h1>
-	        	<c:out value="${ htmlTabla }"  escapeXml="false" />
+	        	<c:out value="${ htmlTabla }" escapeXml="false" />
 				<h3>Puntos</h3>
 				<h3>Tiempo</h3>
 	    	</c:when>
 	    	<c:otherwise>
-	        	<h1>Bienvenido a Sopa de letras, <c:out value="${ userName }" /></h1>
+	        	<h1>Bienvenido a Sopa de letras, <c:out
+						value="${ userName }" />
+				</h1>
 	    	</c:otherwise>
 		</c:choose>
 
@@ -41,10 +43,14 @@
 		;    console.log("Click");
 		;}) */
 		
-		function getCurrentChar(h, v){
+		function getCurrentCharElement(h, v){
 			const id = "" + v + "_" + h;
-			console.log("Getting element with id: ", id);
-			const element = document.getElementById(id);
+			//console.log("Getting element with id: ", id);
+			return document.getElementById(id);
+		}
+		
+		function getCurrentChar(h, v){
+			const element = getCurrentCharElement(h, v);
 			if(element){
 				console.log("Current char is: ", element.textContent);
 				return element.textContent;	
@@ -55,11 +61,20 @@
 			
 		}
 		
-		function getCharsFromFirstAndLast(fCharV, fCharH, lCharV, lCharH) {
-			console.log("Getting chars for", fCharV, fCharH, lCharV, lCharH);
+		function paintCurrentChar(h, v, fontColor, backgroundColor){
+			const element = getCurrentCharElement(h, v);
+			const styleStr = "color: " + fontColor + "; background-color: " + backgroundColor +";";
+			console.log("Applying this style to this coordinates:", styleStr, h, v);
+			element.style = styleStr;
+		}
+		
+		function traverseSelectedWordAndApply(fCharV, 
+											  fCharH, 
+											  lCharV, 
+											  lCharH,
+											  callback) {
 			
-			let retArray = [];
-			
+						
 			//detectar direccion
 			//misma horizontal
 			if(fCharV === lCharV){
@@ -67,19 +82,27 @@
 				if(fCharH < lCharH){
 					console.log("Same horizontal, right");
 					for(let i=fCharH; i <= lCharH; i++){
+						callback(i, fCharV);
+						
+						/*
 						const currentChar = getCurrentChar(i, fCharV);
+						paintCurrentChar(i, fCharV, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				//izquierda	
 				} else {
 					console.log("Same horizontal, left");
 					for(let i=fCharH; i >= lCharH; i--){
+						callback(i, fCharV);
+						
+						/*
 						const currentChar = getCurrentChar(i, fCharV);
+						paintCurrentChar(i, fCharV, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				}
 			//misma vertical
@@ -88,19 +111,27 @@
 				if(fCharV < lCharV){
 					console.log("Same vertical, down");
 					for(let i=fCharV; i <= lCharV; i++){
+						callback(fCharH, i);
+						
+						/*
 						const currentChar = getCurrentChar(fCharH, i);
+						paintCurrentChar(fCharH, i, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				//arriba	
 				} else {
 					console.log("Same vertical, up");
 					for(let i=fCharV; i >= lCharV; i--){
+						callback(fCharH, i);
+						
+						/*
 						const currentChar = getCurrentChar(fCharH, i);
+						paintCurrentChar(fCharH, i, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}	
 				}
 			//diagonal abajo derecha y arriba izquierda
@@ -109,19 +140,27 @@
 				if(lCharV > fCharV){
 					console.log("Same diagonal, down right");
 					for(let i=fCharH, j=fCharV; i <= lCharH && j <= lCharV; i++, j++){
+						callback(i, j);
+						
+						/*
 						const currentChar = getCurrentChar(i, j);
+						paintCurrentChar(i, j, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				//arriba izquierda
 				} else {
 					console.log("Same diagonal, up left");
 					for(let i=fCharH, j=fCharV; i >= lCharH && j >= lCharV; i--, j--){
+						callback(i, j);
+						
+						/*
 						const currentChar = getCurrentChar(i, j);
+						paintCurrentChar(i, j, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				}
 			//diagonal arriba derecha y abajo izquierda	
@@ -130,30 +169,35 @@
 				if(lCharV > fCharV){
 					console.log("Same diagonal, down left");
 					for(let i=fCharH, j=fCharV; i >= lCharH && j <= lCharV; i--, j++){
+						callback(i, j);
+						
+						/*
 						const currentChar = getCurrentChar(i, j);
+						paintCurrentChar(i, j, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				//arriba derecha
 				} else {
 					console.log("Same diagonal, up right");
 					for(let i=fCharH, j=fCharV; i <= lCharH && j >= lCharV; i++, j--){
+						callback(i, j);
+						
+						/*
 						const currentChar = getCurrentChar(i, j);
+						paintCurrentChar(i, j, "white", "green");
 						if(currentChar){
 							retArray.push(currentChar);
-						}
+						} */
 					}
 				}
 			//valores que no conectan
 			} else {
 				console.log("The coordinates can't be connected:", fCharV, fCharH, lCharV, lCharH);
 			}
-			
-			console.log("Returning array:", retArray);
-			
-			return retArray;
 		}
+		
 		
 		let firstCharV= null; 
 		let firstCharH= null; 
@@ -174,15 +218,81 @@
 		    	} else {
 		    		lastCharV = vertical;
 		    		lastCharH = horizontal;
-		    		const charsToCheck = getCharsFromFirstAndLast(parseInt(firstCharV), 
-		    				parseInt(firstCharH), 
-		    				parseInt(lastCharV), 
-		    				parseInt(lastCharH));
-		    		firstCharV= null; 
-		    		firstCharH= null; 
-		    		lastCharV= null; 
-		    		lastCharH = null;
+		    		let charsToCheck = []; 
+		    		console.log("Getting chars for", firstCharV, firstCharH, lastCharV, lastCharH);
+		    		traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 
+		    				parseInt(lastCharV), parseInt(lastCharH),
+		    				function(i, j){
+		    					const currentChar = getCurrentChar(i, j);
+								paintCurrentChar(i, j, "black", "grey");
+								if(currentChar){
+									charsToCheck.push(currentChar);
+								}
+		    				});
+		    		//firstCharV= null; 
+		    		//firstCharH= null; 
+		    		//lastCharV= null; 
+		    		//lastCharH = null;
 		    		console.log("Sending request for chars: ", charsToCheck);
+		    		let objToSend = {
+		    				palabraComprobar: charsToCheck
+		    		};
+		    		const jsonToSend = JSON.stringify(objToSend);
+		    		console.log("Sending json:", jsonToSend);
+		    		$.ajax({
+		    			type: "POST",
+		    			url: "/p7project/checkWord",
+		    			data: jsonToSend,
+		    			dataType: "json",
+		    			contentType: "application/json; charset=utf-8",
+		    			success: function(resp){
+		    				console.log("Received from server:", resp);
+		    				if(resp && resp.correcto && resp.palabrasRestantes === 0){
+		    					const text = "Juego finalizado!!";
+		    					alert(text);
+		    					traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 
+					    				parseInt(lastCharV), parseInt(lastCharH),
+					    				function(i, j){
+				    						console.log("Painting the cells in green");
+											paintCurrentChar(i, j, "white", "green");
+					    				});
+		    				} else if(resp && resp.correcto){
+		    					let found = "Palabra encontrada!\nPalabras restantes: " + resp.palabrasRestantes; 
+				    			alert(found);
+				    			//Dibuja la palabra que ya esta en gris, ahora en verde
+				    			traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 
+					    				parseInt(lastCharV), parseInt(lastCharH),
+					    				function(i, j){
+				    						console.log("Painting the cells in green");
+											paintCurrentChar(i, j, "white", "green");
+					    				});
+		    				} else {
+		    					//No se ha encontrado nada, pintar la casilla de blanco de nuevo
+		    					traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 
+					    				parseInt(lastCharV), parseInt(lastCharH),
+					    				function(i, j){
+				    						console.log("Painting the cells in white");
+											paintCurrentChar(i, j, "black", "white");
+					    				});
+		    				}
+		    				
+			    		}
+		    		})
+		    			.done(function(){
+		    				console.log("Process finished");
+		    			})
+		    			.fail(function(error){
+		    				console.log("Error posting to /checkWord", error.status);
+		    				console.log("Status text:", error.statusText);
+		    			})
+		    			.always(function(){
+		    				console.log("Reseteando las coordenadas");
+		    				firstCharV= null; 
+				    		firstCharH= null; 
+				    		lastCharV= null; 
+				    		lastCharH = null;
+		    			});
+		    		;
 		    	}
 		    	
 		    	

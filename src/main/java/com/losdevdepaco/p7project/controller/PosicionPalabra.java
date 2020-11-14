@@ -1,5 +1,7 @@
 package com.losdevdepaco.p7project.controller;
 
+import com.losdevdepaco.p7project.model.Palabra;
+
 public class PosicionPalabra {
 
 	private int pos;
@@ -7,7 +9,7 @@ public class PosicionPalabra {
 	private int xx;
 	private int yy;
 	
-	public PosicionPalabra(int pos, Palabra palabra, int xx, int yy) {;
+	public PosicionPalabra(int pos, Palabra palabra, int xx, int yy) {
 		this.pos = pos;
 		this.palabra = palabra;
 		this.xx = xx;

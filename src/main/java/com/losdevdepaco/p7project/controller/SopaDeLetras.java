@@ -1,5 +1,6 @@
 package com.losdevdepaco.p7project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SopaDeLetras {
@@ -9,10 +10,11 @@ public class SopaDeLetras {
 	private char letras;
 	private int posicionFija;
 	private String caracteres;
-	private List<PosicionPalabra> posiciones;
+	private List<SPPalabra> posiciones;
+	private List<String> acertadas = new ArrayList<>();
 	
 	public SopaDeLetras(int filas, int columnas, char letras, int posicionFija, String caracteres,
-			List<PosicionPalabra> posiciones) {
+			List<SPPalabra> posiciones) {
 		this.filas = filas;
 		this.columnas = columnas;
 		this.letras = letras;
@@ -61,11 +63,11 @@ public class SopaDeLetras {
 		this.caracteres = caracteres;
 	}
 
-	public List<PosicionPalabra> getPosiciones() {
+	public List<SPPalabra> getPosiciones() {
 		return posiciones;
 	}
 
-	public void setPosiciones(List<PosicionPalabra> posiciones) {
+	public void setPosiciones(List<SPPalabra> posiciones) {
 		this.posiciones = posiciones;
 	}
 	
@@ -77,7 +79,7 @@ public class SopaDeLetras {
 						   {'I','I','M','I','Q','A','L','Z','K','B','B','D','E','J','I','N','I','K','O','A'}, 
 						   {'P','S','A','N','O','R','O','Z','K','F','O','N','D','W','S','J','E','J','X','N'}, 
 						   {'A','T','N','E','J','R','H','P','A','Z','A','B','B','D','E','J','X','N','I','K'}, 
-						   {'R','O','F','R','A','O','M','D','P','R','T','D','K','N','U','B','D','E','J','X'}, 
+						   {'R','O','F','R','A','O','M','D','P','H','A','M','B','R','U','N','A','E','J','X'}, 
 						   {'O','C','A','I','G','L','N','C','A','K','R','M','P','R','G','D','K','N','L','B'}, 
 						   {'M','R','N','L','E','L','X','N','I','K','O','A','O','Z','R','F','O','N','D','W'}, 
 						   {'H','A','O','L','R','A','L','I','F','O','R','O','L','C','U','K','O','A','O','Z'}, 
@@ -88,6 +90,20 @@ public class SopaDeLetras {
 						   {'L','A','S','O','F','O','L','L','D','W','H','J','N','L','Z','K','B','B','D','E'},
 						   {'O','R','E','N','A','R','F','E','R','K','N','L','B','D','E','J','X','N','I','K'}};
 		return tabla;
+	}
+	
+	public boolean comprobarAcierto(String palabraAComprobar) {
+		return this.posiciones.stream().anyMatch(pal -> {
+			return pal.getContenido().toLowerCase().equals(palabraAComprobar.toLowerCase());
+		});
+	}
+	
+	public void anadirAcierto(String acertado) {
+		this.acertadas.add(acertado);
+	}
+	
+	public int getRestantes() {
+		return this.posiciones.size() - this.acertadas.size();
 	}
 
 	@Override
