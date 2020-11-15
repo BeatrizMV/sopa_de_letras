@@ -8,6 +8,7 @@ public class PalabraCheckDto {
 	private int palabrasRestantes = -1;
 	private int puntos = 0;
 	private int segundosUtilizados = 0;
+	private String palabraRecienAcertada;
 	
 	public PalabraCheckDto() {
 		
@@ -53,11 +54,19 @@ public class PalabraCheckDto {
 		this.segundosUtilizados = segundosUtilizados;
 	}
 
+	public String getPalabraRecienAcertada() {
+		return palabraRecienAcertada;
+	}
+
+	public void setPalabraRecienAcertada(String palabraRecienAcertada) {
+		this.palabraRecienAcertada = palabraRecienAcertada;
+	}
+
 	@Override
 	public String toString() {
 		return "PalabraCheckDto [palabraComprobar=" + Arrays.toString(palabraComprobar) + ", isCorrecto=" + isCorrecto
 				+ ", palabrasRestantes=" + palabrasRestantes + ", puntos=" + puntos + ", segundosUtilizados="
-				+ segundosUtilizados + "]";
+				+ segundosUtilizados + ", palabraRecienAcertada=" + palabraRecienAcertada + "]";
 	}
 
 }

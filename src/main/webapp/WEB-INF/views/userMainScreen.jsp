@@ -23,7 +23,7 @@
 	        		<div class="palabras__title">Palabras a buscar</div>
 	        		<ul id="a-buscar" >
 	        			<c:forEach var="item" items="${ palabras }">
-	        				<li class="a-buscar--palabra">${item}</li>
+	        				<li id="${item}" class="a-buscar--palabra">${item}</li>
 	        			</c:forEach>
 	        		</ul>
 	        	</section>
@@ -282,6 +282,7 @@
 											paintCurrentChar(i, j, "white", "green");
 											setCurrentCharSelected(i, j);
 					    				});
+		    					tachaPalabraLista(resp.palabraRecienAcertada);
 		    					finalizarPartida();
 		    				} else if(resp && resp.correcto){
 		    					let found = "Palabra encontrada!\nPalabras restantes: " + resp.palabrasRestantes; 
@@ -294,6 +295,7 @@
 				    						paintCurrentChar(i, j, "white", "green");
 				    						setCurrentCharSelected(i, j);
 					    				});
+				    			tachaPalabraLista(resp.palabraRecienAcertada);
 		    				} else {
 		    					//No se ha encontrado nada, pintar la casilla de blanco de nuevo
 		    					traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 
@@ -326,6 +328,14 @@
 		    	
 		    });
 		});
+		
+		function tachaPalabraLista(palabra){
+			//cada palabra de la lista tiene un id igual a su string
+			console.log("Tachando la palabra:", palabra);
+			const element = document.getElementById(palabra);
+			console.log("desde tachaPalabraLista", element);
+			element.className += " encontrado";
+		}
 		
 		function finalizarPartida() {
 			

@@ -141,6 +141,10 @@ public class HomeController {
 		PalabraCheckDto dto = new PalabraCheckDto();
 		dto.setCorrecto(acierto);
 		dto.setPalabrasRestantes(restantes);
+		if(acierto) {
+			dto.setPalabraRecienAcertada(aComprobar.toLowerCase());
+		}
+		
 		if(restantes == 0) {
 			int segundosUtilizados = calcularSegundosPartida();
 			dto.setSegundosUtilizados(segundosUtilizados);
