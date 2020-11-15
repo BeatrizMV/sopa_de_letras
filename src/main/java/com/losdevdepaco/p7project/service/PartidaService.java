@@ -41,7 +41,7 @@ public class PartidaService {
 		List<Palabra> todasPalabras = palabraDao.getall();
 		Random aleatorio = new Random();
 
-		int numero = 6;
+		int numero = CANTIDAD_PALABRAS;
 		List<Palabra> pSeleccionadas = new ArrayList<>();
 
 		for (int i = 0; i < numero; i++) {
