@@ -38,6 +38,8 @@
 	
 		
 		<div class="new-game-block">
+		<h2 id="puntuacion-final" class="score hide">Puntuación: 588991 puntos</h2>
+		
 			<form action="/p7project/new-game" method="post"> 
   				<input class="new-game-button" type="submit" value="Nueva partida">
 			</form>
@@ -45,15 +47,6 @@
 		
 		
 		<script type="text/javascript">
-		/*$('#1_1').on('mousedown', function() {
-		    console.log("Pulsado");
-		;}).on('mouseup', function() {
-		;    console.log("Soltado");
-		;}); 
-		
-		;$('#1_1').on('click', function() {
-		;    console.log("Click");
-		;}) */
 		
 		function getCurrentCharElement(h, v){
 			const id = "" + v + "_" + h;
@@ -283,7 +276,7 @@
 											setCurrentCharSelected(i, j);
 					    				});
 		    					tachaPalabraLista(resp.palabraRecienAcertada);
-		    					finalizarPartida();
+		    					finalizarPartida(resp.puntos);
 		    				} else if(resp && resp.correcto){
 		    					let found = "Palabra encontrada!\nPalabras restantes: " + resp.palabrasRestantes; 
 				    			alert(found);
@@ -337,8 +330,11 @@
 			element.className += " encontrado";
 		}
 		
-		function finalizarPartida() {
-			
+		function finalizarPartida(puntos) {
+			const elem = document.getElementById("puntuacion-final");
+			const text = "Puntuación final: " + puntos;
+			elem.textContent = text;
+			elem.classList.remove("hide");
 		}
 		
 		</script>
