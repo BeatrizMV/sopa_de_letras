@@ -73,8 +73,8 @@ public class PartidaService {
 	
 	private void guardarPartidaEnDb(PartidaEnCurso pFinalizada, String userIdentifier) {
 		
-		//Usuario usuario = this.obtenerUsuarioDesdeDb(userIdentifier);
-		Usuario usuario = this.obtenerUsuarioDesdeDb("UPDATED EMAIL");
+		Usuario usuario = this.obtenerUsuarioDesdeDb(userIdentifier);
+		//Usuario usuario = this.obtenerUsuarioDesdeDb("UPDATED EMAIL");
 		if(usuario != null) {
 			Partida p = new Partida(pFinalizada.getInicioPartida().toLocalDate(), 
 					this.calculoPuntuacion(pFinalizada.getSegundosPartida()),
@@ -94,7 +94,7 @@ public class PartidaService {
 			return null;
 		} else {
 			List<Usuario> matching = usuarios.stream().filter(usr -> {
-				return usr.getCorreo().equals(identificador);
+				return usr.getNombre().equals(identificador);
 			}).collect(Collectors.toList());
 			if(matching.isEmpty()) {
 				System.out.println("No existe usuario que coincida en email:" + identificador);

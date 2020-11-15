@@ -25,22 +25,18 @@ import com.losdevdepaco.p7project.dto.PalabraCheckDto;
 import com.losdevdepaco.p7project.model.LoginData;
 import com.losdevdepaco.p7project.model.Palabra;
 import com.losdevdepaco.p7project.service.PartidaService;
+import com.losdevdepaco.p7project.service.UsuarioService;
 import com.losdevdepaco.p7project.utils.SopaLetrasRenderer;
 import com.losdevdepaco.p7project.controller.SPPalabra;
 
 @Controller
 public class HomeController {
-
-	
-	
-	//private static SopaDeLetras spEnUso;
-	private static LocalDateTime inicioPartida;
-
-	@Autowired
-	private LdapManager ldapManager;
 	
 	@Autowired
 	private PartidaService partidaService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	// mostrar login.jsp
 	@RequestMapping(value = "/login")
@@ -53,9 +49,10 @@ public class HomeController {
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ModelAndView authenticate(@ModelAttribute("loginData") LoginData loginData) {
 		System.out.println("Received login data:" + loginData.getUserName() + " " + loginData.getPassword());
-		boolean isAuthenticated = ldapManager.authenticate(loginData.getUserName(), loginData.getPassword());
+		boolean isAuthenticated = usuarioService.authenticate(loginData.getUserName(), loginData.getPassword());
 		ModelAndView ret = null;
 		if (isAuthenticated) {
+			usuarioService.createInDbIfNot(loginData.getUserName());
 			ret = new ModelAndView("userMainScreen");
 			ret.addObject("userName", loginData.getUserName());
 		} else {
@@ -69,7 +66,6 @@ public class HomeController {
 	@RequestMapping(value = "/new-game", method = RequestMethod.POST)
 	public ModelAndView createGame() {
 		System.out.println("New Game Called");
-		inicioPartida = LocalDateTime.now();
 
 		SopaDeLetras s = partidaService.crearPartida("Oriol Vila");		
 		ModelAndView ret = new ModelAndView("userMainScreen");
