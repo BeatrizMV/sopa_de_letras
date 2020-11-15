@@ -44,9 +44,10 @@ public class HomeController {
 
 	// mostrar login.jsp
 	@RequestMapping(value = "/login")
-	public String login(Model model) {
+	public ModelAndView login(Model model) {
 		model.addAttribute("loginData", new LoginData());
-		return "login";
+		ModelAndView ret = new ModelAndView("login");
+		return ret;
 	}
 	
 
@@ -67,7 +68,8 @@ public class HomeController {
 			ret = crearPartida(ret, loginData.getUserName());		
 		} else {
 			ret = new ModelAndView("login");
-			ret.addObject("loginData", new LoginData());
+			//ret.addObject("loginData", new LoginData());
+			ret.addObject("loginError", "Error al hacer login!!!");
 		}
 		return ret;
 	}

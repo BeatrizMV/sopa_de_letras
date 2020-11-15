@@ -28,10 +28,23 @@
 		</form:form>
 		</main>
 		
+		<c:choose>
+			<c:when test="${empty loginError }">
+			</c:when>
+			<c:otherwise>
+				<section class="error__block">
+					<c:out value="${loginError}" />
+				</section>
+			</c:otherwise>
+		
+		</c:choose>
+		
 		
 		<script type="text/javascript">
 			//Caducamos cookie
 			//document.cookie = "spuser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+			
+			
 		</script>
 		
 		
