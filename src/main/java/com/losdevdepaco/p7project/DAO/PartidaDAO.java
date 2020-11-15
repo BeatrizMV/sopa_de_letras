@@ -10,10 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import com.losdevdepaco.p7project.db.DBconnection;
 import com.losdevdepaco.p7project.model.Partida;
 import com.losdevdepaco.p7project.model.Usuario;
 
+@Repository
 public class PartidaDAO implements DAO<Partida>{
 	
 	private DBconnection conexion = new DBconnection();

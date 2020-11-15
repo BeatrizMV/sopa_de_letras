@@ -24,18 +24,23 @@ import com.losdevdepaco.p7project.dao.PalabraDAO;
 import com.losdevdepaco.p7project.dto.PalabraCheckDto;
 import com.losdevdepaco.p7project.model.LoginData;
 import com.losdevdepaco.p7project.model.Palabra;
+import com.losdevdepaco.p7project.service.PartidaService;
+import com.losdevdepaco.p7project.utils.SopaLetrasRenderer;
 import com.losdevdepaco.p7project.controller.SPPalabra;
 
 @Controller
 public class HomeController {
 
-	private static final int VALOR_BASE = 10000000; 
 	
-	private static SopaDeLetras spEnUso;
+	
+	//private static SopaDeLetras spEnUso;
 	private static LocalDateTime inicioPartida;
 
 	@Autowired
 	private LdapManager ldapManager;
+	
+	@Autowired
+	private PartidaService partidaService;
 
 	// mostrar login.jsp
 	@RequestMapping(value = "/login")
@@ -66,57 +71,17 @@ public class HomeController {
 		System.out.println("New Game Called");
 		inicioPartida = LocalDateTime.now();
 
-		PalabraDAO palabras = new PalabraDAO();
-		List<Palabra> todasPalabras = palabras.getall();
-		Random aleatorio = new Random();
-
-		int numero = 6;
-		List<Palabra> pSeleccionadas = new ArrayList<>();
-
-		for (int i = 0; i < numero; i++) {
-			int nAleatorio = aleatorio.nextInt(todasPalabras.size());
-			Palabra p = todasPalabras.get(nAleatorio);
-			pSeleccionadas.add(p);
-		}
-
-		List<SPPalabra> listaPalabras = Arrays
-				.asList(new SPPalabra[] { 
-						new SPPalabra(0, 0, 0, "aristocracia"), 
-						new SPPalabra(0, 0, 0, "burguesia"),
-						new SPPalabra(0, 0, 0, "clorofila"), 
-						new SPPalabra(0, 0, 0, "comercializacion"),
-						new SPPalabra(0, 0, 0, "desarrollador"), 
-						new SPPalabra(0, 0, 0, "hambruna") });
-		
+		SopaDeLetras s = partidaService.crearPartida("Oriol Vila");		
 		ModelAndView ret = new ModelAndView("userMainScreen");
-		SopaDeLetras s = new SopaDeLetras(0, 0, 'a', 0, "", listaPalabras);
 		ret.addObject("tabla", s.getTabla());
-
-		
-		 List<String> listaPalabrasStrings = Arrays.asList("aristocracia", "burguesia",
-		 "clorofila", "comercializacion", "desarrollador", "hambruna");
-		
-
-		
-
-		ret.addObject("palabras", listaPalabrasStrings);
+		ret.addObject("palabras", s.getListaPalabras());
 
 		char[][] tabla = s.getTabla();
-		String htmlTabla = "<table id=\"sopa-letras\" class=\"sp__table\">";
-
-		for (int i = 0; i < 15; i++) {
-			htmlTabla += "<tr>";
-			for (int j = 0; j < 20; j++) {
-				htmlTabla += "<td class='celda' id=" + (i) + "_" + (j) + ">" + tabla[i][j]
-						+ "</td>";
-			}
-			htmlTabla += "</tr>";
-		}
-		htmlTabla += "</table>";
+		String htmlTabla = SopaLetrasRenderer.renderizarTabla(tabla);
 		ret.addObject("htmlTabla", htmlTabla);
 
 		// Guardamos la sopa de letras que estamos utilizando en la variable estatica
-		spEnUso = s;
+		//spEnUso = s;
 
 		return ret;
 	}
@@ -127,6 +92,8 @@ public class HomeController {
 	@ResponseBody
 	public PalabraCheckDto checkWord(@RequestBody PalabraCheckDto palabra) {
 		System.out.println("Llegado a checkWord con " + palabra);
+		
+		SopaDeLetras spEnUso = partidaService.getPartidaEnCurso("Oriol Vila");
 
 		// Comprobar aqui si la palabra existe en la sopa de letras
 		// Se deberia de contabilizar que palabras quedan y devolver si se ha
@@ -146,23 +113,14 @@ public class HomeController {
 		}
 		
 		if(restantes == 0) {
-			int segundosUtilizados = calcularSegundosPartida();
+			partidaService.finalizarPartida("Oriol Vila");
+			int segundosUtilizados = partidaService.calcularSegundosPartida("Oriol Vila");
 			dto.setSegundosUtilizados(segundosUtilizados);
-			dto.setPuntos(calcularPuntuacion(segundosUtilizados));
+			dto.setPuntos(partidaService.calcularPuntuacionPartida("Oriol Vila"));
 		}
 
 		System.out.println("Devolvemos respuesta: " + dto);
 		return dto;
 	}
 	
-	private int calcularSegundosPartida() {
-		LocalDateTime finPartida = LocalDateTime.now();
-		long seconds = ChronoUnit.SECONDS.between(inicioPartida, finPartida);
-		return (int) seconds;
-	}
-	
-	private int calcularPuntuacion(int segundos) {
-		return VALOR_BASE / segundos;
-	}
-
 }

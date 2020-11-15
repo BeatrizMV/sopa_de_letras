@@ -8,9 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.losdevdepaco.p7project.db.DBconnection;
 import com.losdevdepaco.p7project.model.Usuario;
 
+@Repository
 public class UsuarioDAO implements DAO<Usuario>{
 	
 	private DBconnection conexion = new DBconnection();

@@ -8,9 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.losdevdepaco.p7project.db.DBconnection;
 import com.losdevdepaco.p7project.model.Palabra;
 
+@Repository
 public class PalabraDAO implements DAO<Palabra> {
 
 	private DBconnection conexion = new DBconnection();

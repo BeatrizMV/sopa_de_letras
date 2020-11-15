@@ -1,7 +1,9 @@
 package com.losdevdepaco.p7project.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SopaDeLetras {
 	
@@ -21,6 +23,25 @@ public class SopaDeLetras {
 		this.posicionFija = posicionFija;
 		this.caracteres = caracteres;
 		this.posiciones = posiciones;
+	}
+	
+	public SopaDeLetras(List<String> palabrasAleatorias) {
+		// No tiene mucho sentido usar SPPalabra para guardar las posiciones. 
+		// Podemos solo detectar que las letras coinciden
+		// con nuestras palabras, ya que podrian aparecer en varias partes de la tabla
+		// Guardar como SPPalabra de momento
+		
+		//Usando las palabras predefinidas de momento
+		 List<String> listaPalabrasStrings = Arrays.asList("aristocracia", "burguesia",
+		 "clorofila", "comercializacion", "desarrollador", "hambruna");
+		 this.posiciones = listaPalabrasStrings.stream().map(str -> {
+				return new SPPalabra(str);
+			}).collect(Collectors.toList());
+		
+		 //Utilizar esto cuando se vaya a autogenerar la sopa de letras
+		/* this.posiciones = palabrasAleatorias.stream().map(str -> {
+			return new SPPalabra(str);
+		}).collect(Collectors.toList()); */
 	}
 
 	public int getFilas() {
@@ -90,6 +111,12 @@ public class SopaDeLetras {
 						   {'L','A','S','O','F','O','L','L','D','W','H','J','N','L','Z','K','B','B','D','E'},
 						   {'O','R','E','N','A','R','F','E','R','K','N','L','B','D','E','J','X','N','I','K'}};
 		return tabla;
+	}
+	
+	public List<String> getListaPalabras(){
+		return this.posiciones.stream().map(spPalabra -> {
+			return spPalabra.getContenido();
+		}).collect(Collectors.toList());
 	}
 	
 	public boolean comprobarAcierto(String palabraAComprobar) {
