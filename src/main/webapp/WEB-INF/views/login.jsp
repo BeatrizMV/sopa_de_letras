@@ -11,8 +11,6 @@
 		</script>
   	</jsp:attribute>
 	<jsp:body>
-<%-- 		<h1>Hello <c:out value="${ name }" /></h1> --%>
-<!-- 		<p>This is just an example page.</p> -->
 
 	<main class="login__container">
 		<h1 class="login__title">Login</h1>
@@ -29,5 +27,13 @@
 			<button class="login__button" type="submit">Conectarse</button>
 		</form:form>
 		</main>
+		
+		
+		<script type="text/javascript">
+			//Caducamos cookie
+			//document.cookie = "spuser=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+		</script>
+		
+		
 	</jsp:body>
 </tags:template>

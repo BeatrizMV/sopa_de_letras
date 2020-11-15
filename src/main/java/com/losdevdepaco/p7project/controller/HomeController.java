@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +35,7 @@ import com.losdevdepaco.p7project.controller.SPPalabra;
 
 @Controller
 public class HomeController {
-	
+		
 	@Autowired
 	private PartidaService partidaService;
 	
@@ -48,20 +52,19 @@ public class HomeController {
 
 	// los datos llegan aqui con el submit del formulario del login.jsp
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ModelAndView authenticate(@ModelAttribute("loginData") LoginData loginData) {
+	public ModelAndView authenticate(@ModelAttribute("loginData") LoginData loginData, 
+			HttpServletResponse response) {
 		System.out.println("Received login data:" + loginData.getUserName() + " " + loginData.getPassword());
 		boolean isAuthenticated = usuarioService.authenticate(loginData.getUserName(), loginData.getPassword());
+
 		ModelAndView ret = null;
 		if (isAuthenticated) {
+			//Creamos cookie para el usuario
+			response.addCookie(new Cookie("spuser", loginData.getUserName()));
 			usuarioService.createInDbIfNot(loginData.getUserName());
 			ret = new ModelAndView("userMainScreen");
-			ret.addObject("userName", loginData.getUserName());
-			ret = crearPartida(ret);
 			
-			
-			
-			
-			
+			ret = crearPartida(ret, loginData.getUserName());		
 		} else {
 			ret = new ModelAndView("login");
 			ret.addObject("loginData", new LoginData());
@@ -69,11 +72,12 @@ public class HomeController {
 		return ret;
 	}
 
-	private ModelAndView crearPartida(ModelAndView ret) {
-		SopaDeLetras s = partidaService.crearPartida("Oriol Vila");		
+	private ModelAndView crearPartida(ModelAndView ret, String userName) {
+		SopaDeLetras s = partidaService.crearPartida(userName);		
 		
 		ret.addObject("tabla", s.getTabla());
 		ret.addObject("palabras", s.getListaPalabras());
+		ret.addObject("userName", userName);
 
 		char[][] tabla = s.getTabla();
 		String htmlTabla = SopaLetrasRenderer.renderizarTabla(tabla);
@@ -81,24 +85,33 @@ public class HomeController {
 		return ret;
 	}
 
+	private String getUserNameFromCookies(Cookie[] cookies) {
+		if(cookies != null) {
+            Cookie cookie = null;
+            for (int i = 0; i < cookies.length; i++) {
+               cookie = cookies[i];
+               if(cookie.getName().equals("spuser")) {
+            	   return cookie.getValue();
+               }
+            }
+            System.out.println("No se ha encontrado ninguna cookie con nombre: " + "spuser");
+            return "";
+         } else {
+            System.out.println("No hay cookies");
+            return "";
+         }
+	}
+	
 	// boton para cargar una nueva partida
 	@RequestMapping(value = "/new-game", method = RequestMethod.POST)
-	public ModelAndView createGame() {
+	public ModelAndView createGame(HttpServletRequest request) {
 		System.out.println("New Game Called");
 
-		/*
-		SopaDeLetras s = partidaService.crearPartida("Oriol Vila");		
+		String userName = getUserNameFromCookies(request.getCookies());
+		
 		ModelAndView ret = new ModelAndView("userMainScreen");
-		ret.addObject("tabla", s.getTabla());
-		ret.addObject("palabras", s.getListaPalabras());
-
-		char[][] tabla = s.getTabla();
-		String htmlTabla = SopaLetrasRenderer.renderizarTabla(tabla);
-		ret.addObject("htmlTabla", htmlTabla);
-		*/
-
-		ModelAndView ret = new ModelAndView("userMainScreen");
-		ret = crearPartida(ret);
+		
+		ret = crearPartida(ret, userName);
 
 		return ret;
 	}
@@ -107,10 +120,13 @@ public class HomeController {
 	@RequestMapping(value = "/checkWord", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public PalabraCheckDto checkWord(@RequestBody PalabraCheckDto palabra) {
+	public PalabraCheckDto checkWord(@RequestBody PalabraCheckDto palabra, 
+			HttpServletRequest request) {
 		System.out.println("Llegado a checkWord con " + palabra);
 		
-		SopaDeLetras spEnUso = partidaService.getPartidaEnCurso("Oriol Vila");
+		String userName = getUserNameFromCookies(request.getCookies());
+		
+		SopaDeLetras spEnUso = partidaService.getPartidaEnCurso(userName);
 
 		// Comprobar aqui si la palabra existe en la sopa de letras
 		// Se deberia de contabilizar que palabras quedan y devolver si se ha
@@ -130,10 +146,10 @@ public class HomeController {
 		}
 		
 		if(restantes == 0) {
-			partidaService.finalizarPartida("Oriol Vila");
-			int segundosUtilizados = partidaService.calcularSegundosPartida("Oriol Vila");
+			partidaService.finalizarPartida(userName);
+			int segundosUtilizados = partidaService.calcularSegundosPartida(userName);
 			dto.setSegundosUtilizados(segundosUtilizados);
-			dto.setPuntos(partidaService.calcularPuntuacionPartida("Oriol Vila"));
+			dto.setPuntos(partidaService.calcularPuntuacionPartida(userName));
 		}
 
 		System.out.println("Devolvemos respuesta: " + dto);

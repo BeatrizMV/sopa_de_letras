@@ -11,7 +11,6 @@
 
 	<jsp:body>
 	
-
 	    	<header class="app-header">
 	    	<div class="user-logged-in-container">
 	    		<a href="/p7project/login" class="user-logged-in">Desconectarse como <c:out
@@ -214,6 +213,8 @@
 		let firstCharH= null; 
 		let lastCharV= null; 
 		let lastCharH = null;
+		
+		
 		
 		document.querySelectorAll(".celda").forEach(function(item){
 		    item.addEventListener("click", function(event){
