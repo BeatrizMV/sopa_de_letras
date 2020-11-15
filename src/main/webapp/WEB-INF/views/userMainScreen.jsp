@@ -11,34 +11,29 @@
 
 	<jsp:body>
 	
-	
-		<c:choose>
-	    	<c:when test="${empty userName}">
+
 	    	<header class="app-header">
+	    	<div class="user-logged-in-container">
+	    		<a href="/p7project/login" class="user-logged-in">Desconectarse como <c:out
+					value="${ userName }" /></a>
+	    	</div>
+	    		
 	        	<h1 class="main-title">Sopa de letras</h1>
 	        </header>
 	        <main class="app-main">
 	        	<c:out value="${ htmlTabla }" escapeXml="false" />
 	        	<section class="palabras__container">
 	        		<div class="palabras__title">Palabras a buscar</div>
-	        		<ul id="a-buscar" >
+	        		<ul id="a-buscar">
 	        			<c:forEach var="item" items="${ palabras }">
 	        				<li id="${item}" class="a-buscar--palabra">${item}</li>
 	        			</c:forEach>
 	        		</ul>
 	        	</section>
-	        </main>
-	    	</c:when>
-	    	<c:otherwise>
-	        	<h1>Bienvenido a Sopa de letras, <c:out
-						value="${ userName }" />
-				</h1>
-	    	</c:otherwise>
-		</c:choose>
-	
+	        </main>	
 		
 		<div class="new-game-block">
-		<h2 id="puntuacion-final" class="score hide">Puntuación: 588991 puntos</h2>
+		<h2 id="puntuacion-final" class="score hide"></h2>
 		
 			<form action="/p7project/new-game" method="post"> 
   				<input class="new-game-button" type="submit" value="Nueva partida">

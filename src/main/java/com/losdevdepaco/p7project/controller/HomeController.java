@@ -44,6 +44,7 @@ public class HomeController {
 		model.addAttribute("loginData", new LoginData());
 		return "login";
 	}
+	
 
 	// los datos llegan aqui con el submit del formulario del login.jsp
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -55,10 +56,28 @@ public class HomeController {
 			usuarioService.createInDbIfNot(loginData.getUserName());
 			ret = new ModelAndView("userMainScreen");
 			ret.addObject("userName", loginData.getUserName());
+			ret = crearPartida(ret);
+			
+			
+			
+			
+			
 		} else {
 			ret = new ModelAndView("login");
 			ret.addObject("loginData", new LoginData());
 		}
+		return ret;
+	}
+
+	private ModelAndView crearPartida(ModelAndView ret) {
+		SopaDeLetras s = partidaService.crearPartida("Oriol Vila");		
+		
+		ret.addObject("tabla", s.getTabla());
+		ret.addObject("palabras", s.getListaPalabras());
+
+		char[][] tabla = s.getTabla();
+		String htmlTabla = SopaLetrasRenderer.renderizarTabla(tabla);
+		ret.addObject("htmlTabla", htmlTabla);
 		return ret;
 	}
 
@@ -67,6 +86,7 @@ public class HomeController {
 	public ModelAndView createGame() {
 		System.out.println("New Game Called");
 
+		/*
 		SopaDeLetras s = partidaService.crearPartida("Oriol Vila");		
 		ModelAndView ret = new ModelAndView("userMainScreen");
 		ret.addObject("tabla", s.getTabla());
@@ -75,9 +95,10 @@ public class HomeController {
 		char[][] tabla = s.getTabla();
 		String htmlTabla = SopaLetrasRenderer.renderizarTabla(tabla);
 		ret.addObject("htmlTabla", htmlTabla);
+		*/
 
-		// Guardamos la sopa de letras que estamos utilizando en la variable estatica
-		//spEnUso = s;
+		ModelAndView ret = new ModelAndView("userMainScreen");
+		ret = crearPartida(ret);
 
 		return ret;
 	}
