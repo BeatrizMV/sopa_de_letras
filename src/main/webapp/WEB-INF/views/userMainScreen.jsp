@@ -335,6 +335,9 @@
 			const text = "Puntuación final: " + puntos;
 			elem.textContent = text;
 			elem.classList.remove("hide");
+			//deshabilitar los clicks en la sopa de letras ya que se ha terminado
+			const elem2 = document.getElementById("sopa-letras");
+			elem2.className += " disable-clicks";
 		}
 		
 		</script>

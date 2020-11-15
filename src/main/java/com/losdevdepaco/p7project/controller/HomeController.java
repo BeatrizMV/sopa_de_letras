@@ -102,7 +102,7 @@ public class HomeController {
 		ret.addObject("palabras", listaPalabrasStrings);
 
 		char[][] tabla = s.getTabla();
-		String htmlTabla = "<table class=\"sp__table\">";
+		String htmlTabla = "<table id=\"sopa-letras\" class=\"sp__table\">";
 
 		for (int i = 0; i < 15; i++) {
 			htmlTabla += "<tr>";

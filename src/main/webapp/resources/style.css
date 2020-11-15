@@ -66,3 +66,7 @@
 .hide {
 	display: none;
 }
+
+.disable-clicks {
+	pointer-events: none;
+}
