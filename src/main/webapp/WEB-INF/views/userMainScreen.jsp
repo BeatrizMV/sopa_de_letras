@@ -15,7 +15,7 @@
 		<c:choose>
 	    	<c:when test="${empty userName}">
 	    	<header class="app-header">
-	        	<h1>Sopa de letras</h1>
+	        	<h1 class="main-title">Sopa de letras</h1>
 	        </header>
 	        <main class="app-main">
 	        	<c:out value="${ htmlTabla }" escapeXml="false" />

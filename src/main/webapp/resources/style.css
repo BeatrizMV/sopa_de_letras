@@ -12,7 +12,7 @@
 
 .app-main {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-evenly;
 	padding: 0 1em;
 }
 
@@ -69,4 +69,8 @@
 
 .disable-clicks {
 	pointer-events: none;
+}
+
+.main-title {
+	font-size: 45px;
 }
