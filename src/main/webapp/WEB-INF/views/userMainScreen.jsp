@@ -43,9 +43,8 @@
 		<script type="text/javascript">
 		
 		function getCurrentCharElement(h, v){
-			const id = "" + v + "_" + h;
-			//console.log("Getting element with id: ", id);
-			return document.getElementById(id);
+			const id = "#" + v + "_" + h;
+			return $(id)[0];
 		}
 		
 		function getCurrentChar(h, v){
@@ -94,12 +93,6 @@
 					for(let i=fCharH; i <= lCharH; i++){
 						callback(i, fCharV);
 						
-						/*
-						const currentChar = getCurrentChar(i, fCharV);
-						paintCurrentChar(i, fCharV, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				//izquierda	
 				} else {
@@ -107,12 +100,6 @@
 					for(let i=fCharH; i >= lCharH; i--){
 						callback(i, fCharV);
 						
-						/*
-						const currentChar = getCurrentChar(i, fCharV);
-						paintCurrentChar(i, fCharV, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				}
 			//misma vertical
@@ -123,12 +110,6 @@
 					for(let i=fCharV; i <= lCharV; i++){
 						callback(fCharH, i);
 						
-						/*
-						const currentChar = getCurrentChar(fCharH, i);
-						paintCurrentChar(fCharH, i, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				//arriba	
 				} else {
@@ -136,12 +117,6 @@
 					for(let i=fCharV; i >= lCharV; i--){
 						callback(fCharH, i);
 						
-						/*
-						const currentChar = getCurrentChar(fCharH, i);
-						paintCurrentChar(fCharH, i, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}	
 				}
 			//diagonal abajo derecha y arriba izquierda
@@ -152,12 +127,6 @@
 					for(let i=fCharH, j=fCharV; i <= lCharH && j <= lCharV; i++, j++){
 						callback(i, j);
 						
-						/*
-						const currentChar = getCurrentChar(i, j);
-						paintCurrentChar(i, j, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				//arriba izquierda
 				} else {
@@ -165,12 +134,6 @@
 					for(let i=fCharH, j=fCharV; i >= lCharH && j >= lCharV; i--, j--){
 						callback(i, j);
 						
-						/*
-						const currentChar = getCurrentChar(i, j);
-						paintCurrentChar(i, j, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				}
 			//diagonal arriba derecha y abajo izquierda	
@@ -181,12 +144,6 @@
 					for(let i=fCharH, j=fCharV; i >= lCharH && j <= lCharV; i--, j++){
 						callback(i, j);
 						
-						/*
-						const currentChar = getCurrentChar(i, j);
-						paintCurrentChar(i, j, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				//arriba derecha
 				} else {
@@ -194,12 +151,6 @@
 					for(let i=fCharH, j=fCharV; i <= lCharH && j >= lCharV; i++, j--){
 						callback(i, j);
 						
-						/*
-						const currentChar = getCurrentChar(i, j);
-						paintCurrentChar(i, j, "white", "green");
-						if(currentChar){
-							retArray.push(currentChar);
-						} */
 					}
 				}
 			//valores que no conectan
@@ -241,10 +192,6 @@
 									charsToCheck.push(currentChar);
 								}
 		    				});
-		    		//firstCharV= null; 
-		    		//firstCharH= null; 
-		    		//lastCharV= null; 
-		    		//lastCharH = null;
 		    		console.log("Sending request for chars: ", charsToCheck);
 		    		let objToSend = {
 		    				palabraComprobar: charsToCheck
@@ -284,7 +231,7 @@
 				    						paintCurrentChar(i, j, "white", "green");
 				    						setCurrentCharSelected(i, j);
 					    				});
-				    			tachaPalabraLista(resp.palabraRecienAcertada);
+				    			tachaPalabraLista(resp.palabraRecienAcertada.toLowerCase());
 		    				} else {
 		    					//No se ha encontrado nada, pintar la casilla de blanco de nuevo
 		    					traverseSelectedWordAndApply(parseInt(firstCharV), parseInt(firstCharH), 

@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-
-
 public class GeneradorTabla {
 	
 	private enum Direccion {
@@ -222,7 +220,7 @@ public class GeneradorTabla {
 			System.out.print('\n');
 		}	
 	}
-	
+	//Para hacer pruebas de si funciona el generador
 	public static void main (String[] args) {
 		List<String> palabras = Arrays.asList("aristocracia",
 											  "burguesia",

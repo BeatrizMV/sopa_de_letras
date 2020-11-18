@@ -2,7 +2,6 @@ package com.losdevdepaco.p7project.utils;
 
 public class SopaLetrasRenderer {
 
-	
 	public static String renderizarTabla(char[][] tabla) {
 		String htmlTabla = "<table id=\"sopa-letras\" class=\"sp__table\">";
 

@@ -12,98 +12,21 @@ public class SopaDeLetras {
 	private static final int ALTO_SP = 15;
 	private static final int ANCHO_SP = 20;
 	
-	private int filas;
-	private int columnas;
-	private char letras;
-	private int posicionFija;
-	private String caracteres;
-	private List<SPPalabra> posiciones;
-	
-	//TODO Esto deberia de sustituir la lista de arriba
 	private List<String> palabras;
 	
 	private List<String> acertadas = new ArrayList<>();
 	
-	public SopaDeLetras(int filas, int columnas, char letras, int posicionFija, String caracteres,
-			List<SPPalabra> posiciones) {
-		this.filas = filas;
-		this.columnas = columnas;
-		this.letras = letras;
-		this.posicionFija = posicionFija;
-		this.caracteres = caracteres;
-		this.posiciones = posiciones;
-	}
-	
-	public SopaDeLetras(List<String> palabrasAleatorias) {
-		// No tiene mucho sentido usar SPPalabra para guardar las posiciones. 
-		// Podemos solo detectar que las letras coinciden
-		// con nuestras palabras, ya que podrian aparecer en varias partes de la tabla
-		// Guardar como SPPalabra de momento
-		
-		//Usando las palabras predefinidas de momento
-		 List<String> listaPalabrasStrings = Arrays.asList("aristocracia", "burguesia",
-		 "clorofila", "comercializacion", "desarrollador", "hambruna");
-		 this.posiciones = listaPalabrasStrings.stream().map(str -> {
-				return new SPPalabra(str);
-			}).collect(Collectors.toList());
-		
-		 //Utilizar esto cuando se vaya a autogenerar la sopa de letras
-		 this.posiciones = palabrasAleatorias.stream().map(str -> {
-			return new SPPalabra(str);
-		}).collect(Collectors.toList()); 
-		 
-		 this.palabras = palabrasAleatorias;
-	}
-
-	public int getFilas() {
-		return filas;
-	}
-
-	public void setFilas(int filas) {
-		this.filas = filas;
-	}
-
-	public int getColumnas() {
-		return columnas;
-	}
-
-	public void setColumnas(int columnas) {
-		this.columnas = columnas;
-	}
-
-	public char getLetras() {
-		return letras;
-	}
-
-	public void setLetras(char letras) {
-		this.letras = letras;
-	}
-
-	public int getPosicionFija() {
-		return posicionFija;
-	}
-
-	public void setPosicionFija(int posicionFija) {
-		this.posicionFija = posicionFija;
-	}
-
-	public String getCaracteres() {
-		return caracteres;
-	}
-
-	public void setCaracteres(String caracteres) {
-		this.caracteres = caracteres;
-	}
-
-	public List<SPPalabra> getPosiciones() {
-		return posiciones;
-	}
-
-	public void setPosiciones(List<SPPalabra> posiciones) {
-		this.posiciones = posiciones;
+	public SopaDeLetras(List<String> palabrasAleatorias) {		 
+		 List<String> palabras = new ArrayList<>();
+		 //para asegurarnos de que todas las palabras estan en minuscula
+		 for(String p : palabrasAleatorias) {
+			 palabras.add(p.toLowerCase());
+		 }
+		 this.palabras = palabras;
 	}
 	
 	public char [][] getTabla(){
+		//Esto lo usamos para hacer pruebas anes de conseguir que se metan aleatoriamente en los casilleros
 						   //1,	2, 	3,	4,	5	 6	 7	  8	  9	 10  11	 12  13  14  15  16  17  18  19  20		
 		/* char [][] tabla = {{'S','D','X','A','O','D','A','D','O','R','M','G','L','Z','K','N','O','A','O','Z'}, 
 						   {'O','A','C','O','M','E','R','C','I','A','L','I','Z','A','C','I','O','N','E','Q'}, 
@@ -128,15 +51,12 @@ public class SopaDeLetras {
 	}
 	
 	public List<String> getListaPalabras(){
-		//return this.posiciones.stream().map(spPalabra -> {
-		//	return spPalabra.getContenido();
-		//}).collect(Collectors.toList());
 		return this.palabras;
 	}
 	
 	public boolean comprobarAcierto(String palabraAComprobar) {
-		return this.posiciones.stream().anyMatch(pal -> {
-			return pal.getContenido().toLowerCase().equals(palabraAComprobar.toLowerCase());
+		return this.palabras.stream().anyMatch(pal -> {
+			return pal.toLowerCase().equals(palabraAComprobar.toLowerCase());
 		});
 	}
 	
@@ -145,15 +65,12 @@ public class SopaDeLetras {
 	}
 	
 	public int getRestantes() {
-		return this.posiciones.size() - this.acertadas.size();
+		return this.palabras.size() - this.acertadas.size();
 	}
 
 	@Override
 	public String toString() {
-		return "SopaDeLetras [filas=" + filas + ", columnas=" + columnas + ", letras=" + letras + ", posicionFija="
-				+ posicionFija + ", caracteres=" + caracteres + ", posiciones=" + posiciones + "]";
+		return "SopaDeLetras [palabras=" + palabras + ", acertadas=" + acertadas + "]";
 	}
-	
-	
 
 }
